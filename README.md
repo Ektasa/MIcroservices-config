@@ -1,3 +1,3 @@
 # MIcroservices-config
 
-Will Practice what new changes we can add in in microservices.
+Will Practice what configuration changes we can add in in our microservices.
