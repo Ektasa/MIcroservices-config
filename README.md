@@ -2,6 +2,7 @@
 
 # Microservices Configuration Practice 🚀
 
+A dedicated repository to experiment, practice, and implement various configuration management patterns, strategies, and tools for a microservices architecture.
 
 ## 🎯 Objectives
 - Decouple application configurations from code to enable independent deployments.
