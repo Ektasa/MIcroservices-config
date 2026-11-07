@@ -1,5 +1,3 @@
-# MIcroservices-config
-
 # Microservices Configuration Practice 🚀
 
 A dedicated repository to experiment, practice, and implement various configuration management patterns, strategies, and tools for a microservices architecture.
