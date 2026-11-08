@@ -1,1 +1,63 @@
+# ====================================================================
+# Application Development Environment Configuration (application-dev.yml)
+# ====================================================================
+# This configuration is loaded when the 'dev' profile is active.
+# It defines local development settings, embedded/local database connections,
+# debug logging, and devtools options.
+# ====================================================================
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api/v1
+
+spring:
+  application:
+    name: microservice-dev-app
+
+  # Database Configuration (Local H2 or Local PostgreSQL/MySQL for Dev)
+  datasource:
+    url: jdbc:h2:mem:devdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+
+  # H2 Console Configuration (Useful for local testing)
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  # JPA / Hibernate Configuration for Development
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  # Cloud Config Client settings (if pulling from a Config Server)
+  config:
+    import: optional:configserver:http://localhost:8888
+
+# Logging Configuration for Development (Verbose for debugging)
+logging:
+  level:
+    root: INFO
+    com.example.microservice: DEBUG
+    org.springframework.web: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+# Management / Actuator Endpoints for Health checks and metrics in dev
+management:
+  endpoints:
+  - web:
+      exposure:
+        include: health,info,metrics,env,configprops
+  endpoint:
+  - health:
+      show-details: ALWAYS
 
