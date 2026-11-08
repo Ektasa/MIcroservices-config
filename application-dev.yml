@@ -60,4 +60,12 @@ management:
   endpoint:
   - health:
       show-details: ALWAYS
+      # Custom Application Properties for Dev
+app:
+  feature:
+    new-dashboard: true
+  welcome-message: "Welcome to the Development Environment!"
+  timeout: 5000
+
+
 
