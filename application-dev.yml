@@ -99,3 +99,12 @@ resilience4j:
         timeoutDuration: 3s                  # Timeout if call takes longer than 3 seconds
         cancelRunningFuture: true
 
+
+spring:
+  datasource:
+    hikari:
+      maximum-pool-size: 10                  # Max connections in the pool for dev
+      minimum-idle: 5                        # Minimum idle connections maintained
+      connection-timeout: 30000              # Maximum milliseconds to wait for a connection (30s)
+      idle-timeout: 600000                   # Time an idle connection can sit before being removed (10m)
+      max-lifetime: 1800000                  # Maximum lifetime of a connection (30m)
