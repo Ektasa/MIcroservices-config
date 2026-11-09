@@ -108,3 +108,15 @@ spring:
       connection-timeout: 30000              # Maximum milliseconds to wait for a connection (30s)
       idle-timeout: 600000                   # Time an idle connection can sit before being removed (10m)
       max-lifetime: 1800000                  # Maximum lifetime of a connection (30m)
+
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true                        # Enables Liveness and Readiness probes
+      show-details: ALWAYS
+  health:
+    circuitbreakers:
+      enabled: true                          # Show Circuit Breaker status in /actuator/health
+    db:
+      enabled: true                          # Monitor database health status
