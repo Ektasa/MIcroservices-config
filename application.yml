@@ -6,3 +6,76 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka
+
+
+# ====================================================================
+# Application Production Environment Configuration (application-prod.yml)
+# ====================================================================
+# Loaded when the 'prod' profile is active. Designed for high availability,
+# security, optimized connection pools, and minimal logging overhead.
+# ====================================================================
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api/v1
+  tomcat:
+    threads:
+      max: 200
+      min-spare: 20
+
+spring:
+  application:
+    name: microservice-prod-app
+
+  # Production Database Configuration (External PostgreSQL / MySQL Cluster)
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:prod-db-cluster.internal}:5432/${DB_NAME:appdb}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD} # Injected securely via Environment Variables or Vault
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 30                    # Scaled for production load
+      minimum-idle: 10
+      connection-timeout: 20000                # Fail fast if connection takes > 20s
+      idle-timeout: 300000
+      max-lifetime: 1200000
+
+  # JPA / Hibernate Production Adjustments (Disable auto-DDL!)
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: validate                       # NEVER use 'update' or 'create' in production!
+    show-sql: false                            # Disable SQL printing for performance
+    properties:
+      hibernate:
+        format_sql: false
+
+  # Central Config Server Connection with Fail-Safe / Encryption
+  config:
+    import: optional:configserver:https://config-server.internal.net:8888
+
+# Logging Configuration for Production (Clean, structured INFO level)
+logging:
+  level:
+    root: INFO
+    com.example.microservice: INFO
+    org.springframework.web: WARN
+    org.hibernate: WARN
+
+# Production Actuator & Monitoring Settings (Restrict sensitive endpoints)
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus # Expose Prometheus for Grafana scraping
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: WHEN_AUTHORIZED             # Hide sensitive internal details from public view
+  metrics:
+    tags:
+      environment: production
+
+
