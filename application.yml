@@ -78,4 +78,19 @@ management:
     tags:
       environment: production
 
+# Production Resiliency (Strict timeout & circuit breaking)
+resilience4j:
+  circuitbreaker:
+    instances:
+      defaultService:
+        failureRateThreshold: 40
+        slowCallRateThreshold: 80
+        slowCallDurationThreshold: 1s
+        waitDurationInOpenState: 30s
+  retry:
+    instances:
+      defaultService:
+        maxAttempts: 2                         # Fewer retries in prod to avoid traffic storms
+        waitDuration: 1s
+
 
